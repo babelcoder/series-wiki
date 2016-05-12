@@ -4,7 +4,9 @@
   "description": "BabelCoder Wiki!",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "npm-run-all --parallel start-dev-api start-dev-ui",
+    "start-dev-api": "json-server --watch api/db.json --routes api/routes.json --port 5000",
+    "start-dev-ui": "webpack-dev-server --hot --inline"
   },
   "author": "Nuttavut Thongjor",
   "license": "ISC",
@@ -18,7 +20,9 @@
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
+    "json-server": "^0.8.12",
     "node-sass": "^3.7.0",
+    "npm-run-all": "^1.8.0",
     "postcss-loader": "^0.9.1",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
@@ -27,8 +31,10 @@
   },
   "dependencies": {
     "babel-runtime": "^6.6.1",
+    "isomorphic-fetch": "^2.2.1",
     "react": "^15.0.2",
-    "react-dom": "^15.0.2"
+    "react-dom": "^15.0.2",
+    "react-router": "^2.4.0"
   },
   "peerDependencies": {
     "react": "^15.0.2",
