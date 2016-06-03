@@ -1,31 +1,38 @@
-import React, { Component } from 'react'
-import { PAGES_ENDPOINT } from '../../constants/endpoints'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { loadPage } from '../../actions/page'
+import { getPageById } from '../../reducers/pages'
 import { ShowPage } from '../../components'
 
-export default class ShowPageContainer extends Component {
-  state = {
-    page: {
-      title: '',
-      content: ''
-    }
+class ShowPageContainer extends Component {
+  static propTypes = {
+    page: PropTypes.object.isRequired,
+    onLoadPage: PropTypes.func.isRequired
   }
 
-  shouldComponentUpdate(_nextProps, nextState) {
-    return this.state.page !== nextState.page;
+  shouldComponentUpdate(nextProps) {
+    return this.props.page !== nextProps.page;
   }
 
   componentDidMount() {
-    fetch(`${PAGES_ENDPOINT}/${this.props.params.id}`)
-      .then((response) => response.json())
-      .then((page) => this.setState({ page }))
+    const { onLoadPage, params: { id } } = this.props
+
+    onLoadPage(id)
   }
 
   render() {
-    const { id, title, content } = this.state.page
+    const { id, title, content } = this.props.page
 
-    return <ShowPage
-      id={id}
-      title={title}
-      content={content} />
+    return (
+      <ShowPage
+        id={id}
+        title={title}
+        content={content} />
+    )
   }
 }
+
+export default connect(
+  (state, ownProps) => ({ page: getPageById(state, ownProps.params.id) }),
+  { onLoadPage: loadPage }
+)(ShowPageContainer)

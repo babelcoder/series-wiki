@@ -50,4 +50,25 @@ $border-style: 1px solid $gray1-color;
     color: $dark-gray1-color;
     border: none;
   }
+
+  // Form
+  .form {
+    fieldset {
+      margin: 0;
+      padding: 0.35rem 0 0.75rem;
+      border: 0;
+    }
+
+    input[type='text'],
+    textarea,
+    label {
+      display: block;
+      margin: 0.25rem 0;
+      width: 100%;
+    }
+
+    .error {
+      color: $red1-color;
+    }
+  }
 }

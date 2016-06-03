@@ -5,6 +5,9 @@ const autoprefixer = require('autoprefixer');
 module.exports = {
   devtool: 'eval',
   entry: [
+    'react-hot-loader/patch',
+    'webpack-dev-server/client?http://localhost:8080',
+    'webpack/hot/only-dev-server',
     './ui/theme/elements.scss',
     './ui/index.js'
   ],
@@ -13,6 +16,9 @@ module.exports = {
     path: path.join(__dirname, 'static'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
     loaders: [
       {
@@ -57,6 +63,8 @@ module.exports = {
     return [autoprefixer];
   },
   devServer: {
+    hot: true,
+    inline: false,
     historyApiFallback: true,
     proxy: {
       '/api/*': {

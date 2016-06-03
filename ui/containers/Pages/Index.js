@@ -1,21 +1,20 @@
-import React, { Component } from 'react'
-import fetch from 'isomorphic-fetch'
-import { PAGES_ENDPOINT } from '../../constants/endpoints'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
+import { loadPages } from '../../actions/page'
 import { Pages } from '../../components'
 
-export default class PagesContainer extends Component {
-  state = {
-    pages: []
+class PagesContainer extends Component {
+  static propTypes = {
+    pages: PropTypes.array.isRequired,
+    onLoadPages: PropTypes.func.isRequired
   }
 
-  shouldComponentUpdate(_nextProps, nextState) {
-    return this.state.pages !== nextState.pages;
+  shouldComponentUpdate(nextProps) {
+    return this.props.pages !== nextProps.pages;
   }
 
   onReloadPages = () => {
-    fetch(PAGES_ENDPOINT)
-      .then((response) => response.json())
-      .then((pages) => this.setState({ pages }))
+    this.props.onLoadPages()
   }
 
   componentDidMount() {
@@ -25,8 +24,13 @@ export default class PagesContainer extends Component {
   render() {
     return (
       <Pages
-        pages={this.state.pages}
+        pages={this.props.pages}
         onReloadPages={this.onReloadPages} />
     )
   }
 }
+
+export default connect(
+  (state) => ({ pages: state.pages }),
+  { onLoadPages: loadPages }
+)(PagesContainer)

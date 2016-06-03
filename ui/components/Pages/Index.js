@@ -13,6 +13,7 @@ const Pages = ({
       onClick={() => onReloadPages()}>
       Reload Pages
     </button>
+    <Link to={{ pathname: '/pages/new' }}>Create New Page</Link>
     <hr />
     <table className='table'>
     <thead>
