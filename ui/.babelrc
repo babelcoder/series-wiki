@@ -1,0 +1,12 @@
+{
+  "presets": ["es2015", "stage-0", "react"],
+  "plugins": [
+    "react-hot-loader/babel",
+    [
+      "css-modules-transform", {
+        "preprocessCss": "./ui/lib/processSass.js",
+        "extensions": [".css", ".scss"]
+      }
+    ]
+  ]
+}

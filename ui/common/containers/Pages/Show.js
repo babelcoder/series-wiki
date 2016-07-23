@@ -10,6 +10,10 @@ class ShowPageContainer extends Component {
     onLoadPage: PropTypes.func.isRequired
   }
 
+  static need = [
+    (params) => (loadPage(params.id))
+  ]
+
   shouldComponentUpdate(nextProps) {
     return this.props.page !== nextProps.page;
   }

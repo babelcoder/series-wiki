@@ -1,18 +1,19 @@
 const webpack = require('webpack');
 const path = require('path');
 const autoprefixer = require('autoprefixer');
+const config = require('../config');
 
 module.exports = {
   devtool: 'eval',
   entry: [
     'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8080',
+    `webpack-dev-server/client?http://${config.host}:${config.clientPort}`,
     'webpack/hot/only-dev-server',
-    './ui/theme/elements.scss',
-    './ui/index.js'
+    './ui/common/theme/elements.scss',
+    './ui/client/index.js'
   ],
   output: {
-    publicPath: '/static/',
+    publicPath: `http://${config.host}:${config.clientPort}/static/`,
     path: path.join(__dirname, 'static'),
     filename: 'bundle.js'
   },
@@ -25,7 +26,13 @@ module.exports = {
         test: /\.jsx?$/,
         exclude: /node_modules/,
         loaders: [
-          'babel-loader'
+          {
+            loader: 'babel-loader',
+            query: {
+              babelrc: false,
+              presets: ["es2015", "stage-0", "react"]
+            }
+          }
         ]
       },
       {
@@ -44,7 +51,7 @@ module.exports = {
             query: {
               sourceMap: true,
               module: true,
-              localIdentName: '[local]___[hash:base64:5]'
+              localIdentName: '[name]__[local]___[hash:base64:5]'
             }
           },
           {
@@ -63,13 +70,9 @@ module.exports = {
     return [autoprefixer];
   },
   devServer: {
+    port: config.clientPort,
     hot: true,
     inline: false,
-    historyApiFallback: true,
-    proxy: {
-      '/api/*': {
-        target: 'http://127.0.0.1:5000'
-      }
-    }
+    historyApiFallback: true
   }
 };

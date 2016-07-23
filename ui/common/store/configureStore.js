@@ -5,7 +5,7 @@ import { apiMiddleware } from 'redux-api-middleware'
 import createLogger from 'redux-logger'
 import rootReducer from '../reducers'
 
-export default (history) => {
+export default (history, initialState) => {
   const middlewares = [thunk, apiMiddleware, routerMiddleware(history)]
 
   if(process.env.NODE_ENV !== 'production')
@@ -13,6 +13,7 @@ export default (history) => {
 
   const store = createStore(
     rootReducer,
+    initialState,
     applyMiddleware(...middlewares)
   )
 
